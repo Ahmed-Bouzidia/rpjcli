@@ -6,7 +6,9 @@ on:
       - dev
 
 jobs:
+
   testjob:
+  
     name: Test Job
     runs-on: ubuntu-latest
 
@@ -17,7 +19,6 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.MY_PAT }}
 
-      - name: Run Tests
         run: python src/rpg_test.py
 
 
