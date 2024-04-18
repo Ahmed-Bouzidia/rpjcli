@@ -20,21 +20,13 @@ jobs:
       - name: Run Tests
         run: python src/rpg_test.py
 
-  push_to_main:
-    needs: [testjob]
-    runs-on: ubuntu-latest
-    if: success()  # Ne s'exécutera que si le job 'test' réussit
 
-    steps:
-      - name: Push to main branch
-        if: github.ref == 'refs/heads/dev'  # Ne s'exécutera que si la branche actuelle est 'dev'
+      - name: test_ok
+       if: success()  # Ne s'exécutera que si le job 'test' réussit
         run: |
+          git fetch 
           git checkout main
-          git pull origin main
+          git merge --ff-only origin/dev 
           git push origin main
 
-      - name: Pull from dev branch locally
-        if: github.ref == 'refs/heads/dev'  # Ne s'exécutera que si la branche actuelle est 'dev'
-        run: |
-          git checkout dev
-          git pull origin dev
+     
