@@ -1,4 +1,4 @@
-name: workflow for the rpj CI CD
+name: Python CI Workflow
 
 on:
   push:
@@ -6,33 +6,44 @@ on:
       - dev
 
 jobs:
-
-
-
-  testjob:
-    name: testjob
+  test-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
-      - name: Test
-        run: python src/rpg_test.py
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Nécessaire pour les opérations Git qui nécessitent l'historique complet
+          token: ${{ secrets.MY_PAT }}
 
-  push_to_main:
-    needs: [testjob]
-    runs-on: ubuntu-latest
-    if: success()  # Ne s'exécutera que si le job 'test' réussit
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.0' 
 
-    steps:
-      - name: Push to main branch
-        if: github.ref == 'refs/heads/dev'  # Ne s'exécutera que si la branche actuelle est 'dev'
+      - name: Install dependencies
         run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests with pytest
+        id: pytest
+        run: |
+          pytest
+
+      - name: test_ok
+        if: success()
+        run: |
+          git fetch
           git checkout main
-          git pull origin main
+          git merge --ff-only origin/dev
           git push origin main
-
-      - name: Pull from dev branch locally
-        if: github.ref == 'refs/heads/dev'  # Ne s'exécutera que si la branche actuelle est 'dev'
+          
+      - name: test_ko
+        if: failure()
         run: |
+          unique_branch_suffix=$(date +%s)
+          git checkout -b failure/$unique_branch_suffix
+          git push origin failure/$unique_branch_suffix
+          
           git checkout dev
-          git pull origin dev
+          git reset --soft HEAD~1
+          git push origin dev --force
