@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        run: python personnage.py
+        run: python src/personnage.py
 
   testjob:
     needs: [build]
@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Test
-        run: python rpg_test.py
+        run: python src/rpg_test.py
 
   push_to_main:
     needs: [testjob]
