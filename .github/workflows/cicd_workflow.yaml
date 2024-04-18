@@ -21,7 +21,7 @@ jobs:
   push_to_main:
     needs: [testjob]
     runs-on: ubuntu-latest
-    if: ${{ needs.testjob.status == 'success' }}  # Ne s'exécutera que si le job 'test' réussit
+    if: success()  # Ne s'exécutera que si le job 'test' réussit
 
     steps:
       - name: Push to main branch
