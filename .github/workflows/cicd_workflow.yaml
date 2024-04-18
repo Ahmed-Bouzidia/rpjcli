@@ -26,9 +26,9 @@ jobs:
         run: python test/test.py
 
   push_to_main:
-    needs: [test]
+    needs: [testjob]
     runs-on: ubuntu-latest
-    if: ${{ testjob.status == 'success' }}  # Ne s'exécutera que si le job 'test' réussit
+    if: ${{ needs.testjob.status == 'success' }}  # Ne s'exécutera que si le job 'test' réussit
 
     steps:
       - name: Push to main branch
@@ -45,9 +45,9 @@ jobs:
           git pull origin dev
 
   handle_failure:
-    needs: [test]
+    needs: [testjob]
     runs-on: ubuntu-latest
-    if: ${{ testjob.status != 'success' }}  # S'exécutera seulement si le job 'test' échoue
+    if: ${{ needs.testjob.status != 'success' }}  # S'exécutera seulement si le job 'test' échoue
 
     steps:
       - name: Create unique failure branch
