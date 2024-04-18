@@ -17,7 +17,7 @@ jobs:
 
   test:
     needs: [build]
-    name: job for executing unit tests
+    name: testjob
     runs-on: ubuntu-latest
 
     steps:
@@ -28,7 +28,7 @@ jobs:
   push_to_main:
     needs: [test]
     runs-on: ubuntu-latest
-    if: ${{ job.status == 'success' }}  # Ne s'exécutera que si le job 'test' réussit
+    if: ${{ testjob.status == 'success' }}  # Ne s'exécutera que si le job 'test' réussit
 
     steps:
       - name: Push to main branch
@@ -47,7 +47,7 @@ jobs:
   handle_failure:
     needs: [test]
     runs-on: ubuntu-latest
-    if: ${{ job.status != 'success' }}  # S'exécutera seulement si le job 'test' échoue
+    if: ${{ testjob.status != 'success' }}  # S'exécutera seulement si le job 'test' échoue
 
     steps:
       - name: Create unique failure branch
