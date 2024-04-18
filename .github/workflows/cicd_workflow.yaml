@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Test
-        run: python test/test.py
+        run: python test/rpg_test.py
 
   push_to_main:
     needs: [testjob]
