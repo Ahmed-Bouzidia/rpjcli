@@ -15,7 +15,7 @@ jobs:
       - name: Build
         run: python src/personnage.py
 
-  test:
+  testjob:
     needs: [build]
     name: testjob
     runs-on: ubuntu-latest
