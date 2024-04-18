@@ -6,9 +6,8 @@ on:
       - dev
 
 jobs:
-
-  testjob:
-    name: Test Job
+  test_and_push:
+    name: Test and Push
     runs-on: ubuntu-latest
 
     steps:
@@ -26,16 +25,14 @@ jobs:
       - name: Run tests
         run: python src/rpg_test.py
 
-  test_ok:
-    needs: [testjob]
-    runs-on: ubuntu-latest
-    if: success()  # Ne s'exécutera que si le job 'test' réussit
-    steps:
       - name: Git fetch
         run: git fetch
+
       - name: Checkout main branch
         run: git checkout main
+
       - name: Merge dev branch into main
         run: git merge --ff-only origin/dev
+
       - name: Push to main branch
         run: git push origin main
