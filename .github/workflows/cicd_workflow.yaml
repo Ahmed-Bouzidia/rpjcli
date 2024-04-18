@@ -7,16 +7,9 @@ on:
 
 jobs:
 
-  build:
-    runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build
-        run: python src/personnage.py
 
   testjob:
-    needs: [build]
     name: testjob
     runs-on: ubuntu-latest
 
@@ -43,30 +36,3 @@ jobs:
         run: |
           git checkout dev
           git pull origin dev
-
-  handle_failure:
-    needs: [testjob]
-    runs-on: ubuntu-latest
-    if: ${{ needs.testjob.status != 'success' }}  # S'exécutera seulement si le job 'test' échoue
-
-    steps:
-      - name: Create unique failure branch
-        run: |
-          FAILURE_BRANCH="failure-$(date +%s)"
-	  git branch $FAILURE_BRANCH
-          git checkout  $FAILURE_BRANCH
-          git reset --hard dev
-          git push origin $FAILURE_BRANCH
-
-      - name: Push to dev branch
-        run: |
-          git checkout dev
-          git pull origin dev
-          git merge --no-ff $FAILURE_BRANCH
-          git push origin dev
-
-      - name: Pull from dev branch locally after failure
-        run: |
-          git checkout dev
-          git pull origin dev
-
