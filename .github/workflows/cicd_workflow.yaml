@@ -8,31 +8,34 @@ on:
 jobs:
 
   testjob:
-  
     name: Test Job
     runs-on: ubuntu-latest
 
     steps:
-       - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
           token: ${{ secrets.MY_PAT }}
- 
-        - name: Set up Python
-        uses: actions/setup-python@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
         with:
-          python-version: '3.12.0' 
+          python-version: '3.12.0'
 
-         - name: run test 
-            run: python src/rpg_test.py
+      - name: Run tests
+        run: python src/rpg_test.py
 
-
-      - name: test_ok
-       if: success()  # Ne s'exécutera que si le job 'test' réussit
-        run: |
-          git fetch 
-          git checkout main
-          git merge --ff-only origin/dev 
-          git push origin main
-
-     
+  test_ok:
+    needs: [testjob]
+    runs-on: ubuntu-latest
+    if: success()  # Ne s'exécutera que si le job 'test' réussit
+    steps:
+      - name: Git fetch
+        run: git fetch
+      - name: Checkout main branch
+        run: git checkout main
+      - name: Merge dev branch into main
+        run: git merge --ff-only origin/dev
+      - name: Push to main branch
+        run: git push origin main
