@@ -1,5 +1,7 @@
 import unittest
 
+from git.rpjcli.src.personnage import Personnage
+
 
 class TestPersonnage(unittest.TestCase):
 
