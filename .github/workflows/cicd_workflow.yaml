@@ -1,4 +1,4 @@
-name: workflow for the rpj CI CD
+name: Workflow for the RPG CI/CD
 
 on:
   push:
@@ -6,19 +6,18 @@ on:
       - dev
 
 jobs:
-
-
-
   testjob:
-    name: testjob
+    name: Test Job
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-            with:
-                fetch-depth: 0
-                token: ${{ secrets.MY_PAT}}    
-      - name: Test
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.MY_PAT }}
+
+      - name: Run Tests
         run: python src/rpg_test.py
 
   push_to_main:
