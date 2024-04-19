@@ -18,8 +18,3 @@ class Personnage:
         victime.points -= self.HEART_LOOSED_POINTS
         if victime.points == 0:
             victime.isAlive = False
-
-    
-    def heal(self):
-        self.points = 100
-        
