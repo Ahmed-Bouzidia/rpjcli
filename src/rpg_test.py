@@ -43,11 +43,6 @@ class TestPersonnage(unittest.TestCase):
             victime.hurt()
         victime.heal()
         self.assertEqual(100, victime.get_points())
-        
-    def test_return1(self):
-        self.assertEqual(1, 0)
-
-
 
 
 if __name__ == '__main__':
