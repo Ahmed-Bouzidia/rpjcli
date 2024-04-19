@@ -36,6 +36,19 @@ class TestPersonnage(unittest.TestCase):
         for _ in range(5):
             mechant.hurt(victime)
         self.assertFalse(victime.is_alive())
+    
+    def test_healRestoresPoints(self):
+        victime = Personnage()
+        for _ in range(5):
+            victime.hurt()
+        victime.heal()
+        self.assertEqual(100, victime.get_points())
+        
+    def test_return1(self):
+        self.assertEqual(1, 0)
+
+
+
 
 if __name__ == '__main__':
     unittest.main()
