@@ -39,6 +39,12 @@ class TestPersonnage(unittest.TestCase):
     
     def test_return1(self):
         self.assertEqual(1, 1)
-
+    
+    def test_add_health(self):
+        personnage= Personnage()
+        personnage.hurt_player()
+        personnage.hurt_player()
+        personnage.add_health(20)
+        self.assertEqual(80,personnage.points)
 if __name__ == '__main__':
     unittest.main()
