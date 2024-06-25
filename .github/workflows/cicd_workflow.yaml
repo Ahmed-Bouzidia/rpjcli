@@ -18,7 +18,7 @@ jobs:
           token: ${{ secrets.MY_PAT }}
 
       - name: Set up Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4  # Updated to the latest version
         with:
           python-version: '3.12.0'
 
@@ -37,7 +37,7 @@ jobs:
       - name: Push to main branch
         run: git push origin main
 
-      - name: test_ko
+      - name: Handle test failure
         if: failure()
         run: |
           unique_branch_suffix=$(date +%s)
