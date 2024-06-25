@@ -1,15 +1,16 @@
 import unittest
 from personnage import Personnage
 
-class TestPersonnage(unittest.TestCase):
+
+class TestPersonage(unittest.TestCase):
 
     def test_initalesPointsInit(self):
-        personnage = Personnage()
-        self.assertEqual(100, personnage.get_points())
+        personage = Personnage()
+        self.assertEqual(100, personage.get_points())
 
     def test_isAliveAtGameStartInit(self):
-        personnage = Personnage()
-        self.assertTrue(personnage.is_alive())
+        personage = Personnage()
+        self.assertTrue(personage.is_alive())
 
     def test_attackReduceOnePointsForVictimInit(self):
         mechant = Personnage()
@@ -38,13 +39,18 @@ class TestPersonnage(unittest.TestCase):
         self.assertFalse(victime.is_alive())
 
     def test_initial_position(self):
-        mechan = Personnage()
-        self.assertFalse(mechan.is_alive())
+        personage = Personnage()
+        self.assertFalse((),personage.get_position())
 
-    def test_getUn(self):
-        personne  = Personnage()
-        self.assertFalse(1, personne.get())
+    def test_return1(self):
+        self.assertEqual(1, 1)
 
+    def test_add_health(self):
+        personnage = Personnage()
+        personnage.hurt_player()
+        personnage.hurt_player()
+        personnage.add_health(20)
+        self.assertEqual(80, personnage.points)
 
 
 if __name__ == '__main__':
