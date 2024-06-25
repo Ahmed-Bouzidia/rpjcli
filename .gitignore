@@ -1,6 +1,9 @@
 # Compiled Python files
 *.pyc
 
+#Yaml workflow for github actions
+*.github
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
