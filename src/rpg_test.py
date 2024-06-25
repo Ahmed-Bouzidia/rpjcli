@@ -37,5 +37,15 @@ class TestPersonnage(unittest.TestCase):
             mechant.hurt(victime)
         self.assertFalse(victime.is_alive())
 
+    def test_initial_position(self):
+        mechan = Personnage()
+        self.assertFalse(mechan.is_alive())
+
+    def test_getUn(self):
+        personne  = Personnage()
+        self.assertFalse(1, personne.get())
+
+
+
 if __name__ == '__main__':
     unittest.main()

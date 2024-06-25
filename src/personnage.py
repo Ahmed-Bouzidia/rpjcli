@@ -4,6 +4,7 @@ class Personnage:
     def __init__(self):
         self.points = 100
         self.isAlive = True
+        self.position = (1,1)
 
     def get_points(self):
         return self.points
@@ -18,3 +19,9 @@ class Personnage:
         victime.points -= self.HEART_LOOSED_POINTS
         if victime.points == 0:
             victime.isAlive = False
+
+    def run(self): #run form a position to another one
+        self.position = (1,3)
+
+    def get(self):
+        return 1
