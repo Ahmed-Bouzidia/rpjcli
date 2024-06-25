@@ -1,0 +1,16 @@
+# Compiled Python files
+*.pyc
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# macOS
+.DS_Store
+
+# PyCharm files
+.idea/
+
+# Virtual environment
+venv/
