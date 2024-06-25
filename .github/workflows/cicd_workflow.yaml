@@ -1,4 +1,4 @@
-name: Workflow for the RPG CI/CD 25/6
+name: Workflow for the RPG CI/CD
 
 on:
   push:
@@ -35,18 +35,27 @@ jobs:
         run: git checkout main
 
       - name: Merge dev branch into main
-        run: git merge --ff-only origin/dev
+        run: |
+          git merge --ff-only origin/dev || (
+            echo "Merge conflict detected. Aborting merge."
+            git merge --abort
+            exit 1
+          )
 
       - name: Push to main branch
         run: git push origin main
 
-      - name: Reapply stashed changes
-        if: failure()
-        run: git stash pop || echo "No stashed changes to reapply"
-
-      - name: Handle test failure
+      - name: Handle test failure and conflicts
         if: failure()
         run: |
+          # Resolve merge conflicts if they exist
+          if git ls-files -u | grep -q 'src/__pycache__/personnage.cpython-312.pyc'; then
+            echo "Merge conflict in src/__pycache__/personnage.cpython-312.pyc. Resolving..."
+            git checkout --ours src/__pycache__/personnage.cpython-312.pyc
+            git add src/__pycache__/personnage.cpython-312.pyc
+            git commit -m "Resolved merge conflict in src/__pycache__/personnage.cpython-312.pyc"
+          fi
+
           unique_branch_suffix=$(date +%s)
           git checkout -b failure/$unique_branch_suffix
           git push origin failure/$unique_branch_suffix
@@ -54,3 +63,7 @@ jobs:
           git checkout dev
           git reset --soft HEAD~1
           git push origin dev --force
+
+      - name: Reapply stashed changes
+        if: always()
+        run: git stash pop || echo "No stashed changes to reapply"
