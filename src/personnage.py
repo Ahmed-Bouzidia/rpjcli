@@ -24,7 +24,7 @@ class Personnage:
         self.position = (1, 3)
 
     def get(self):
-        return 1
+        return 11
 
     def hurt_player(self):
         self.points = self.points - 20
