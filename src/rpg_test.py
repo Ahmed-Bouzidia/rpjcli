@@ -58,7 +58,7 @@ class TestPersonage(unittest.TestCase):
         personnage.hurt_player()
         personnage.add_health(20)
         self.assertEqual(80, personnage.points)
-
+        print('ff')
 
 
 
